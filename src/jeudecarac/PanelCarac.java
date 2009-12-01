@@ -1,36 +1,31 @@
 //panel qui s'occupe d'afficher les caractères.
-
 package jeudecarac;
 
 import java.awt.Font;
 import java.awt.Graphics;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.JPanel;
 
-public class PanelCarac extends JPanel{
-    private char plop;
+public class PanelCarac extends JPanel implements Observer {
+
+    EvtCarac evtCarac;
 
     /** constructeur */
     public PanelCarac() {
-        plop=0;
+        evtCarac = EvtCarac.getInstance();
+        evtCarac.addObserver(this); //on observe evtCarac.
     }
 
     @Override
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);    //repeindre le font (classe parent)
-        if(plop!=0){
-            g.setFont(new Font("sansserif", Font.BOLD, 60));
-            g.drawString(""+plop, 100, 100);
-        }
+        g.setFont(new Font("sansserif", Font.BOLD, 60));    //police
+        g.drawString("" + evtCarac.getCarac(), 100, 100);     //tracer le caractère
     }
 
-    /** Affiche la lettre en paramètre */
-    public void drawLetter(char plop){
-        this.plop=plop;
-        update();
-    }
-
-    /** mise à jour du Panel */
-    public void update(){
+    /** Fonction appelée automatiquement lorsqu'un élément observé est modifié (ici evtCarac) */
+    public void update(Observable o, Object arg) {
         repaint();
     }
 }
