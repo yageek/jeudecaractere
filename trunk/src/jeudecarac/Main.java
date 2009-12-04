@@ -10,7 +10,6 @@ public class Main {
 
         //Lance la fenetre dans un nouveau thread
         java.awt.EventQueue.invokeLater(new Runnable() {
-
             public void run() {
                 new MainFrame().setVisible(true);
             }
