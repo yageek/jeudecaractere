@@ -12,10 +12,10 @@ import javax.swing.Timer;
 
 public class PanelCarac extends JPanel implements Observer {
 
-    EvtCarac evtCarac;
-    int positionCaract;
-    int time;
-    Timer tim;
+    private EvtCarac evtCarac;
+    private int positionCaract;
+    private int time;
+    private Timer tim;
 
 
     /** constructeur */
@@ -43,12 +43,21 @@ public class PanelCarac extends JPanel implements Observer {
             positionCaract=0;
             evtCarac.generateCarac();
         }
-        g.drawString("" + evtCarac.getCarac(), positionCaract, 100);     //tracer le caractère
+        g.drawString("" + evtCarac.getRandomCarac(), positionCaract, 100);     //tracer le caractère
     }
 
     /** Fonction appelée automatiquement lorsqu'un élément observé est modifié (ici evtCarac) */
     public void update(Observable o, Object arg) {
         tim.setDelay(evtCarac.getTime());
         repaint();
+    }
+
+    public void stopTimer(){
+        tim.stop();
+
+    }
+
+    public void startTimer(){
+        tim.start();
     }
 }
