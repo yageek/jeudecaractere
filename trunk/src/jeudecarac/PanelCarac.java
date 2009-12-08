@@ -15,7 +15,7 @@ public class PanelCarac extends JPanel implements Observer {
     private EvtCarac evtCarac;
     private int positionCaract;
     private int time;
-    private Timer tim;
+    private TimerPerso tim;
 
 
     /** constructeur */
@@ -24,7 +24,7 @@ public class PanelCarac extends JPanel implements Observer {
         evtCarac.addObserver(this); //on observe evtCarac.
         positionCaract = 0;
         time=(int)(Math.random()*30+10);
-        ActionListener taskPerformer = new ActionListener() {
+        /*ActionListener taskPerformer = new ActionListener() {
 
             public void actionPerformed(ActionEvent evt) {
                 positionCaract+=5;
@@ -32,7 +32,16 @@ public class PanelCarac extends JPanel implements Observer {
             }
         };
         tim = new Timer(time, taskPerformer);
+        tim.start();*/
+        tim = new TimerPerso(time, true){
+            @Override
+            public void iteration() {
+                positionCaract+=5;
+                repaint();
+            }
+        };
         tim.start();
+
     }
 
     @Override
@@ -53,11 +62,11 @@ public class PanelCarac extends JPanel implements Observer {
     }
 
     public void stopTimer(){
-        tim.stop();
+        tim.stopTimer();
 
     }
 
     public void startTimer(){
-        tim.start();
+        tim.startTimer();
     }
 }
