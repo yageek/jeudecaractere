@@ -4,9 +4,6 @@
  */
 package jeudecarac;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  *
  * @author 4heinyan
