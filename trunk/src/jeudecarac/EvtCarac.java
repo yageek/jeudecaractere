@@ -22,7 +22,7 @@ public class EvtCarac extends Observable {   //classe observable
     }
 
     public void velocity(int width){
-        time = (int)((Math.random()*5+10)*300/width);
+        time = (int)((Math.random()*5+10)*555/width);
         this.setChanged();      //notre état a changé
         this.notifyObservers(); //on prévient tout ceux qui observent.
     }
