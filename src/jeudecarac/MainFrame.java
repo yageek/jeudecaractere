@@ -18,8 +18,9 @@ public class MainFrame extends JFrame {
     private JButton startButton;
     private JButton stopButton;
     private JButton quitButton;
-    private JLabel scoreLabel;
+    private static JLabel scoreLabel;
     private JLabel typedLetter;
+    private static int score;
 
     /** constructeur */
     public MainFrame() {
@@ -33,7 +34,9 @@ public class MainFrame extends JFrame {
         startButton = new JButton("Start");
         stopButton = new JButton("Stop");
         quitButton = new JButton("Quit");
-        scoreLabel = new JLabel("Score = 0");
+        score=0;
+        scoreLabel = new JLabel("Score = "+score);
+        
         typedLetter = new JLabel(" ");
         typedLetter.setHorizontalAlignment(JLabel.CENTER);
         typedLetter.setFont(new Font("sansserif", Font.BOLD,30 ));
@@ -103,14 +106,33 @@ public class MainFrame extends JFrame {
 
     }
 
+    public static void incScore(){
+        score++;
+        scoreLabel.setText("Score = "+score);
+    }
+
+    public static void decScore(){
+        score--;
+        if(score<=0){
+            scoreLabel.setText("Score = "+score+" => haha !");
+        }else{
+            scoreLabel.setText("Score = "+score);
+        }
+    }
+
     /** Fction appelée quand une touche est préssée */
     private void formKeyPressed(java.awt.event.KeyEvent evt) {
         evtCarac.setCarac(evt.getKeyChar());
         typedLetter.setText("You typed: " + evtCarac.getTypedCarac());     //affichage du caractère tapé
 
-        //On teste si c'est correcte
-        if(evtCarac.getTypedCarac() == evtCarac.getRandomCarac() & panelCarac.TestInRect())
-            System.out.println("Ok"); else System.out.println("Erreur");
+        //On teste si c'est correct
+        if(evtCarac.getTypedCarac() == evtCarac.getRandomCarac()){//* & panelCarac.TestInRect()*/)
+             panelCarac.setPositionCaract(0);
+            evtCarac.generateCarac();
+            incScore();
+        }else{
+            decScore();
+        }
         
     }
 

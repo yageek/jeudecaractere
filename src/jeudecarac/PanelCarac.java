@@ -4,12 +4,9 @@ package jeudecarac;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 public class PanelCarac extends JPanel implements Observer {
 
@@ -48,23 +45,24 @@ public class PanelCarac extends JPanel implements Observer {
         };
         tim.start();
         //Position du rectangle
-        this.xRect = 500;
+        /*this.xRect = 500;
         this.yRect = 45;
         this.widthRect = 100;
-        this.heightRect = 60;
+        this.heightRect = 60;*/
     }
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);    //repeindre le font (classe parent)
         //on va dessiner un rectangle
-        g.setColor(Color.red);
-        g.fillRect(this.xRect, this.yRect,this.widthRect, this.heightRect);
+        //g.setColor(Color.red);
+        //g.fillRect(this.xRect, this.yRect,this.widthRect, this.heightRect);
         g.setColor(Color.black);
         g.setFont(new Font("sansserif", Font.BOLD, 60));    //police
         if(positionCaract >= this.getWidth()){
             positionCaract=0;
             evtCarac.generateCarac();
+            MainFrame.decScore();
         }
         g.drawString("" + evtCarac.getRandomCarac(), positionCaract, 100);     //tracer le caractère
     }
@@ -84,7 +82,11 @@ public class PanelCarac extends JPanel implements Observer {
         tim.startTimer();
     }
 
-    public int getxRect() {
+    public void setPositionCaract(int positionCaract) {
+        this.positionCaract = positionCaract;
+    }
+
+    /*public int getxRect() {
         return xRect;
     }
 
@@ -105,6 +107,6 @@ public class PanelCarac extends JPanel implements Observer {
     if(positionCaract > this.getxRect() && positionCaract < (this.getxRect() + this.getHeightRect())) return true;
     else return false;
         
-    }
+    }*/
 
 }
