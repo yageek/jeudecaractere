@@ -6,6 +6,9 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.WindowEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -26,10 +29,10 @@ public class MainFrame extends JFrame {
     public MainFrame() {
         super();
         evtCarac = EvtCarac.getInstance();
-        evtCarac.generateCarac();
+        evtCarac.generateCarac(this.getWidth());
 
         //Init panel
-        panelCarac = new PanelCarac();
+        panelCarac = new PanelCarac(this);
         //init Button
         startButton = new JButton("Start");
         stopButton = new JButton("Stop");
@@ -53,7 +56,14 @@ public class MainFrame extends JFrame {
         startButton.setFocusable(false);    //pour que la fenetre attrape l'évenement "touche appuyée"
         quitButton.setFocusable(false);
         stopButton.setFocusable(false);
+        addComponentListener(new ComponentAdapter() {
 
+            @Override
+            public void componentResized(ComponentEvent e) {
+                changeScore();
+            }
+        });
+        
         //Ajoute un écouteur pour les touches appuyées
         addKeyListener(new java.awt.event.KeyAdapter() {
 
@@ -106,6 +116,11 @@ public class MainFrame extends JFrame {
 
     }
 
+    public void changeScore(){
+        evtCarac.velocity(this.getWidth());
+
+        }
+
     public static void incScore(){
         score++;
         scoreLabel.setText("Score = "+score);
@@ -128,7 +143,7 @@ public class MainFrame extends JFrame {
         //On teste si c'est correct
         if(evtCarac.getTypedCarac() == evtCarac.getRandomCarac()){//* & panelCarac.TestInRect()*/)
              panelCarac.setPositionCaract(0);
-            evtCarac.generateCarac();
+            evtCarac.generateCarac(this.getWidth());
             incScore();
         }else{
             decScore();

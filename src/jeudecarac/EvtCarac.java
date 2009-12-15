@@ -14,9 +14,15 @@ public class EvtCarac extends Observable {   //classe observable
         return time;
     }
 
-    public void generateCarac(){
+    public void generateCarac(int width){
         randomCarac=(char)(Math.random()*(122-97)+97);
-        time = (int)(Math.random()*5+10);
+        velocity(width);
+        this.setChanged();      //notre état a changé
+        this.notifyObservers(); //on prévient tout ceux qui observent.
+    }
+
+    public void velocity(int width){
+        time = (int)((Math.random()*5+10)*300/width);
         this.setChanged();      //notre état a changé
         this.notifyObservers(); //on prévient tout ceux qui observent.
     }
