@@ -14,6 +14,10 @@ public abstract class TimerPerso extends Thread {
     private boolean running;
     private boolean pause;
 
+    public int getDelay() {
+        return time;
+    }
+
     public void setDelay(int time) {
         this.time = time;
     }
