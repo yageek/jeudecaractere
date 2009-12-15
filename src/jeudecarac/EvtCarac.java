@@ -16,7 +16,7 @@ public class EvtCarac extends Observable {   //classe observable
 
     public void generateCarac(){
         randomCarac=(char)(Math.random()*(122-97)+97);
-        time = (int)(Math.random()*30+10);
+        time = (int)(Math.random()*5+10);
         this.setChanged();      //notre état a changé
         this.notifyObservers(); //on prévient tout ceux qui observent.
     }
