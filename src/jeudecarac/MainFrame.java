@@ -109,7 +109,9 @@ public class MainFrame extends JFrame {
 
         //Ajout dasn kle flux
 
-        setSize(new Dimension(300, 400));
+        setSize(new Dimension(500, 400));
+
+        this.setTitle("MANU & YAGEEK");
 
 
 
