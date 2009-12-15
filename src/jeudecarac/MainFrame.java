@@ -2,6 +2,7 @@
 package jeudecarac;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -25,11 +26,15 @@ public class MainFrame extends JFrame {
     private JLabel typedLetter;
     private static int score;
 
+    public static int getScore() {
+        return score;
+    }
+
     /** constructeur */
     public MainFrame() {
         super();
         evtCarac = EvtCarac.getInstance();
-        evtCarac.generateCarac(this.getWidth());
+        evtCarac.generateCarac(this.getWidth(), 0);
 
         //Init panel
         panelCarac = new PanelCarac(this);
@@ -119,7 +124,7 @@ public class MainFrame extends JFrame {
     }
 
     public void changeScore(){
-        evtCarac.velocity(this.getWidth());
+        evtCarac.velocity(this.getWidth(), score);
 
         }
 
@@ -140,17 +145,19 @@ public class MainFrame extends JFrame {
     /** Fction appelée quand une touche est préssée */
     private void formKeyPressed(java.awt.event.KeyEvent evt) {
         evtCarac.setCarac(evt.getKeyChar());
-        typedLetter.setText("You typed: " + evtCarac.getTypedCarac());     //affichage du caractère tapé
+        evtCarac.randomHeight(this.getHeight());
 
         //On teste si c'est correct
         if(evtCarac.getTypedCarac() == evtCarac.getRandomCarac()){//* & panelCarac.TestInRect()*/)
              panelCarac.setPositionCaract(0);
-            evtCarac.generateCarac(this.getWidth());
+            evtCarac.generateCarac(this.getWidth(), score);
+            typedLetter.setForeground(new Color(21,112,00));
             incScore();
         }else{
+              typedLetter.setForeground(new Color(255,0,00));
             decScore();
         }
-        
+         typedLetter.setText("You typed: " + evtCarac.getTypedCarac());     //affichage du caractère tapé
     }
 
     public void quit() {

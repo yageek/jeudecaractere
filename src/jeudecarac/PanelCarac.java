@@ -12,6 +12,7 @@ public class PanelCarac extends JPanel implements Observer {
 
     private EvtCarac evtCarac;
     private int positionCaract;
+    
     private int time;
     private TimerPerso tim;
     private MainFrame mainframe;
@@ -32,8 +33,8 @@ public class PanelCarac extends JPanel implements Observer {
         evtCarac = EvtCarac.getInstance();
         evtCarac.addObserver(this); //on observe evtCarac.
         positionCaract = 0;
-        time=(int)(Math.random()*30+10);
-        /*ActionListener taskPerformer = new ActionListener() {
+        
+         /*ActionListener taskPerformer = new ActionListener() {
 
             public void actionPerformed(ActionEvent evt) {
                 positionCaract+=5;
@@ -67,10 +68,11 @@ public class PanelCarac extends JPanel implements Observer {
         g.setFont(new Font("sansserif", Font.BOLD, 60));    //police
         if(positionCaract >= this.getWidth()){
             positionCaract=0;
-            evtCarac.generateCarac(mainframe.getWidth());
+            evtCarac.randomHeight(this.getHeight());
+            evtCarac.generateCarac(mainframe.getWidth(), mainframe.getScore());
             MainFrame.decScore();
         }
-        g.drawString("" + evtCarac.getRandomCarac(), positionCaract, 100);     //tracer le caractère
+        g.drawString("" + evtCarac.getRandomCarac(), positionCaract, evtCarac.getHauteurCaract());     //tracer le caractère
     }
 
     /** Fonction appelée automatiquement lorsqu'un élément observé est modifié (ici evtCarac) */
