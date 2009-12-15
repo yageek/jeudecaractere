@@ -107,6 +107,11 @@ public class MainFrame extends JFrame {
     private void formKeyPressed(java.awt.event.KeyEvent evt) {
         evtCarac.setCarac(evt.getKeyChar());
         typedLetter.setText("You typed: " + evtCarac.getTypedCarac());     //affichage du caractère tapé
+
+        //On teste si c'est correcte
+        if(evtCarac.getTypedCarac() == evtCarac.getRandomCarac() & panelCarac.TestInRect())
+            System.out.println("Ok"); else System.out.println("Erreur");
+        
     }
 
     public void quit() {
