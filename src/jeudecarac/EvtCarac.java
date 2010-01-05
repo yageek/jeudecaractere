@@ -15,8 +15,8 @@ public class EvtCarac extends Observable {   //classe observable
         return time;
     }
 
-    public void randomHeight(int height){
-        hauteurCaract = (int)(Math.random()*(height - 200)+100);
+    public void randomHeight(int height){       //on génère une hauteur aléatoire pour le caractère. dépend du paramètre height : hauteur de la fenetre
+        hauteurCaract = (int)(Math.random()*(height - 200)+50);
     }
 
     public int getHauteurCaract() {
@@ -24,19 +24,18 @@ public class EvtCarac extends Observable {   //classe observable
     }
 
 
-
     public void generateCarac(int width, int score){
         randomCarac=(char)(Math.random()*(122-97)+97);
-        velocity(width, score);
+        velocity(width, score);     //on change la vitesse selon le score
         this.setChanged();      //notre état a changé
         this.notifyObservers(); //on prévient tout ceux qui observent.
     }
 
-    public void velocity(int width, int score){
+    public void velocity(int width, int score){     //on change la vitesse selon le score.
         if(score>15){
             time = (int)((Math.random()*5+15)*555/width/(0.1*score));
         }else{
-            time = (int)((Math.random()*5+15)*555/width);
+            time = (int)((Math.random()*5+15)*555/width);       //indépendant du score si score <= 15
         }
         this.setChanged();      //notre état a changé
         this.notifyObservers(); //on prévient tout ceux qui observent.
@@ -44,10 +43,11 @@ public class EvtCarac extends Observable {   //classe observable
 
     private EvtCarac() {
         typedCarac = ' ';
-       randomCarac = ' ';
+        randomCarac = ' ';
+        hauteurCaract = 100;
     }
 
-    /** pour etre sur de n'avoir qu'une seule instance */
+    /* pour etre sur de n'avoir qu'une seule instance */
     public static EvtCarac getInstance() {
         if (evtCarac == null) {
             evtCarac = new EvtCarac();
@@ -55,7 +55,7 @@ public class EvtCarac extends Observable {   //classe observable
         return evtCarac;
     }
 
-    /** Change la caractère à afficher */
+    /* Change le caractère à afficher */
     public void setCarac(char carac) {
         //on vérifie que c'est une lettre. Sinon on ne prévient personne.
         if (carac >= 97 && carac <= 122) {

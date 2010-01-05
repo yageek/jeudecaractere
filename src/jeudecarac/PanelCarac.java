@@ -27,14 +27,15 @@ public class PanelCarac extends JPanel implements Observer {
     */
 
 
-    /** constructeur */
+    /* constructeur */
     public PanelCarac(MainFrame mainframe) {
         this.mainframe=mainframe;
         evtCarac = EvtCarac.getInstance();
         evtCarac.addObserver(this); //on observe evtCarac.
-        positionCaract = 0;
+        positionCaract = 0;     //on dépasse la taille de la fenetre pour générer un caractère la prochaine fois qu'on rentre dans le paintComponent.
         
-         /*ActionListener taskPerformer = new ActionListener() {
+         /* Version avec la classe Timer de java :
+          ActionListener taskPerformer = new ActionListener() {
 
             public void actionPerformed(ActionEvent evt) {
                 positionCaract+=5;
@@ -43,6 +44,8 @@ public class PanelCarac extends JPanel implements Observer {
         };
         tim = new Timer(time, taskPerformer);
         tim.start();*/
+        
+        //On crée un TimerPerso, qui va incrémenter la position du caractère à interval régulier.
         tim = new TimerPerso(time, true){
             @Override
             public void iteration() {
@@ -50,7 +53,7 @@ public class PanelCarac extends JPanel implements Observer {
                 repaint();
             }
         };
-        tim.start();
+        tim.start();        //on démarre le timer.
         //Position du rectangle
         /*this.xRect = 500;
         this.yRect = 45;
@@ -66,10 +69,10 @@ public class PanelCarac extends JPanel implements Observer {
         //g.fillRect(this.xRect, this.yRect,this.widthRect, this.heightRect);
         g.setColor(Color.black);
         g.setFont(new Font("sansserif", Font.BOLD, 60));    //police
-        if(positionCaract >= this.getWidth()){
+        if(positionCaract >= this.getWidth()){  //si on dépasse le bord, on recrée un caractère.
             positionCaract=0;
             evtCarac.randomHeight(this.getHeight());
-            evtCarac.generateCarac(mainframe.getWidth(), mainframe.getScore());
+            evtCarac.generateCarac(mainframe.getWidth(), MainFrame.getScore());
             MainFrame.decScore();
         }
         g.drawString("" + evtCarac.getRandomCarac(), positionCaract, evtCarac.getHauteurCaract());     //tracer le caractère
@@ -83,7 +86,6 @@ public class PanelCarac extends JPanel implements Observer {
 
     public void stopTimer(){
         tim.stopTimer();
-
     }
 
     public void startTimer(){
