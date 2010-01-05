@@ -1,13 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package jeudecarac;
 
-/**
- *
- * @author 4heinyan
- */
 public abstract class TimerPerso extends Thread {
 
     private int time;
@@ -22,38 +15,38 @@ public abstract class TimerPerso extends Thread {
         this.time = time;
     }
 
+    //constructeur du TimerPerso
     public TimerPerso(int time, boolean pause) {
         this.time = time;
         this.pause=pause;
         running=true;
     }
 
+    //démarrer le timer
     public void startTimer() {
         pause = true;
         Thread.currentThread().interrupt();
     }
 
+    //arreter le timer.
     public void stopTimer() {
         pause = false;
-        
+        Thread.currentThread().interrupt();
     }
 
     @Override
     public void run() {
         while (running) {
             if(pause) iteration();
-            /*while(!pause){
-                try {
-                    Thread.sleep(1);
-                } catch (InterruptedException ex) {
-                }
-            }*/
             try {
-                Thread.sleep(time);
+                Thread.sleep(time); //on s'arrète pendant le temps time avant d'exécuter la prochaine iteration()
             } catch (InterruptedException ex) {
-                
             }
         }
+    }
+
+    public boolean isRunning(){
+        return pause;
     }
 
     public void quit() {

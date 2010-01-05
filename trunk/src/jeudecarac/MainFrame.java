@@ -9,7 +9,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.WindowEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -62,7 +61,6 @@ public class MainFrame extends JFrame {
         quitButton.setFocusable(false);
         stopButton.setFocusable(false);
         addComponentListener(new ComponentAdapter() {
-
             @Override
             public void componentResized(ComponentEvent e) {
                 changeScore();
@@ -71,7 +69,6 @@ public class MainFrame extends JFrame {
         
         //Ajoute un écouteur pour les touches appuyées
         addKeyListener(new java.awt.event.KeyAdapter() {
-
             @Override
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 formKeyPressed(evt);
@@ -79,24 +76,20 @@ public class MainFrame extends JFrame {
         });
 
         quitButton.addActionListener(new java.awt.event.ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
                 quit();
             }
         });
 
         stopButton.addActionListener(new java.awt.event.ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
                 panelCarac.stopTimer();
                 startButton.setEnabled(true);
                 stopButton.setEnabled(false);
-
             }
         });
 
         startButton.addActionListener(new java.awt.event.ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
                 panelCarac.startTimer();
                 startButton.setEnabled(false);
@@ -125,8 +118,7 @@ public class MainFrame extends JFrame {
 
     public void changeScore(){
         evtCarac.velocity(this.getWidth(), score);
-
-        }
+    }
 
     public static void incScore(){
         score++;
@@ -148,16 +140,17 @@ public class MainFrame extends JFrame {
         evtCarac.randomHeight(this.getHeight());
 
         //On teste si c'est correct
-        if(evtCarac.getTypedCarac() == evtCarac.getRandomCarac()){//* & panelCarac.TestInRect()*/)
-             panelCarac.setPositionCaract(0);
+        if(evtCarac.getTypedCarac() == evtCarac.getRandomCarac()    &&  panelCarac.getTim().isRunning()){//* & panelCarac.TestInRect()*/)   //si le timer est en train de tourner => jeu en cours.
+            panelCarac.setPositionCaract(0);
+            evtCarac.randomHeight(this.getHeight());
             evtCarac.generateCarac(this.getWidth(), score);
             typedLetter.setForeground(new Color(21,112,00));
             incScore();
         }else{
-              typedLetter.setForeground(new Color(255,0,00));
+            typedLetter.setForeground(new Color(255,0,00));
             decScore();
         }
-         typedLetter.setText("You typed: " + evtCarac.getTypedCarac());     //affichage du caractère tapé
+        typedLetter.setText("You typed: " + evtCarac.getTypedCarac());     //affichage du caractère tapé
     }
 
     public void quit() {
