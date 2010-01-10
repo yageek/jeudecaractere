@@ -67,11 +67,11 @@ public class PanelCarac extends JPanel implements Observer {
         //on va dessiner un rectangle
         //g.setColor(Color.red);
         //g.fillRect(this.xRect, this.yRect,this.widthRect, this.heightRect);
-        g.setColor(Color.black);
+        g.setColor(Color.black);    //couleur de fond
         g.setFont(new Font("sansserif", Font.BOLD, 60));    //police
         if(positionCaract >= this.getWidth()){  //si on dépasse le bord, on recrée un caractère.
             positionCaract=0;
-            evtCarac.randomHeight(this.getHeight());
+            evtCarac.randomHeight(this.getHeight());    //hauteur aléatoire.
             evtCarac.generateCarac(mainframe.getWidth(), MainFrame.getScore());
             MainFrame.decScore();
         }

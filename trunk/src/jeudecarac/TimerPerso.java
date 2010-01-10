@@ -1,9 +1,9 @@
-
+//permet de créer un timer. Utilisé pour déplacer le caractère à interval de temps régulier.
 package jeudecarac;
 
 public abstract class TimerPerso extends Thread {
 
-    private int time;
+    private int time;           //temps entre deux appels de la fonction.
     private boolean running;
     private boolean pause;
 
@@ -54,5 +54,5 @@ public abstract class TimerPerso extends Thread {
         Thread.currentThread().interrupt();
     }
 
-    public abstract void iteration();
+    public abstract void iteration(); 
 }

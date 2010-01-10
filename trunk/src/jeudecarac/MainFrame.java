@@ -60,6 +60,8 @@ public class MainFrame extends JFrame {
         startButton.setFocusable(false);    //pour que la fenetre attrape l'évenement "touche appuyée"
         quitButton.setFocusable(false);
         stopButton.setFocusable(false);
+
+        //si la fenetre est redimensionnée, on adapte la vitesse de défilement du caractère, pour que ce ne soit pas plus facile. Plus la largeur est grande, plus le caractère va vite.
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -75,6 +77,7 @@ public class MainFrame extends JFrame {
             }
         });
 
+        //écouteur pour les appuis sur les boutons.
         quitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 quit();
@@ -105,30 +108,26 @@ public class MainFrame extends JFrame {
         getContentPane().add(panelCarac, BorderLayout.CENTER); //ajoute le Panel à la fenetre
         getContentPane().add(pan, BorderLayout.SOUTH);
 
-        //Ajout dasn kle flux
-
         setSize(new Dimension(500, 400));
 
         this.setTitle("MANU & YAGEEK");
-
-
-
-
     }
 
     public void changeScore(){
         evtCarac.velocity(this.getWidth(), score);
     }
 
+    //incrémenter le score.
     public static void incScore(){
         score++;
         scoreLabel.setText("Score = "+score);
     }
 
+    //diminuer de 1 le score.
     public static void decScore(){
         score--;
         if(score<=0){
-            scoreLabel.setText("Score = "+score+" => haha !");
+            scoreLabel.setText("Score = "+score+" => haha !");  //moquerie gratuite
         }else{
             scoreLabel.setText("Score = "+score);
         }
@@ -153,8 +152,8 @@ public class MainFrame extends JFrame {
         typedLetter.setText("You typed: " + evtCarac.getTypedCarac());     //affichage du caractère tapé
     }
 
+    //quitter l'application.
     public void quit() {
-
         this.dispose();
         System.exit(0);
     }

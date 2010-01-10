@@ -7,8 +7,7 @@ package jeudecarac;
 public class Main {
 
     public static void main(String[] args) {
-
-        //Lance la fenetre dans un nouveau thread
+        //Mets la fenetre dans la file du dispatch thread. La méthode 'run' va etre appelée dans le dispatch thread quand ce sera son tour.
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainFrame().setVisible(true);
