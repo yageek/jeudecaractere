@@ -1,0 +1,9 @@
+\select@language {french}
+\contentsline {section}{\numberline {I}Les diff\'erentes \'etapes}{3}{section.1}
+\contentsline {subsection}{\numberline {A}Afficher un caract\`ere entr\'e au clavier}{3}{subsection.1.1}
+\contentsline {subsection}{\numberline {B}G\'en\'erateur al\'eatoire de caract\`eres}{3}{subsection.1.2}
+\contentsline {subsection}{\numberline {C}Boutons start, stop et quit}{4}{subsection.1.3}
+\contentsline {section}{\numberline {II}La version finale du jeu}{5}{section.2}
+\contentsline {section}{\numberline {III}Documentation}{6}{section.3}
+\contentsline {subsection}{\numberline {A}Syst\`eme de gestion de versions}{6}{subsection.3.1}
+\contentsline {subsection}{\numberline {B}Licence du programme}{6}{subsection.3.2}
