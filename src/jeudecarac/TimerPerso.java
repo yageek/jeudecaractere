@@ -31,14 +31,14 @@ public abstract class TimerPerso extends Thread {
     //arreter le timer.
     public void stopTimer() {
         pause = false;
-        Thread.currentThread().interrupt();
+        Thread.currentThread().interrupt(); //interruption immédiate de l'exécution.
     }
 
     @Override
     public void run() {
         while (running) {
-            if(pause) iteration();
             try {
+                if(pause) iteration();
                 Thread.sleep(time); //on s'arrète pendant le temps time avant d'exécuter la prochaine iteration()
             } catch (InterruptedException ex) {
             }
