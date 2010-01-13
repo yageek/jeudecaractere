@@ -26,6 +26,12 @@
 \usepackage{amsmath}
 \usepackage{placeins}
 
+%pour pouvoir mettre du code java :
+\usepackage{listings}
+\lstset{language=Java,numbers=none,frame=none,basicstyle=\footnotesize,breaklines,tabsize=2,captionpos=b,prebreak={\hbox{ $\rightarrow$}},postbreak={\hbox{$\hookrightarrow$ }},showstringspaces=false}
+% pour mettre en évidence
+\lstset{moredelim=[is][\color{red}]{_+_}{_+_}}
+
 \setcounter{secnumdepth}{3}	%numérotation jusqu'à subsubsection
 
 \renewcommand{\thesection}{\Roman{section}}
@@ -38,6 +44,8 @@
 
 
 \begin{document}
+
+
 %---------------------------------------------------------------------	
 
 		\thispagestyle{empty}
@@ -54,9 +62,9 @@
 				
 		\begin{figure}[ht]
 			  \centering
-  		  \vspace{2cm}
-			  \includegraphics[height=12cm]{Capture.png}
-			  \vspace{2cm}
+				\vspace{3cm}
+			  \includegraphics[height=10cm]{Capture.png}
+			  \vspace{3cm}
 		\end{figure}
 		
 		~\\
@@ -107,17 +115,18 @@
 					Tout ce qui concerne l'interface graphique doit etre exécuté dans ce thread. Pour cela on dispose d'une queue d'évenements. Les actions sont effectuées de manière séquentielle par ce thread (cela permet d'éliminer les problèmes de synchronisation).\\
 					Ainsi, dans la structure de notre programme, nous avons une classe Main qui contient une fonction main qui est le point d'entrée de notre programme.\\
 					Cette fonction main va mettre la création de notre fenetre dans la liste des actions à effectuer par l'EventDispatchThread, grace à l'appel à la fonction invokeLater.\\
-					~\\
-					java.awt.EventQueue.invokeLater(new Runnable() {\\
-						public void run() {\\
-							new MainFrame().setVisible(true);\\
-						}\\
-					});\\
-					~\\
+					\begin{lstlisting}
+					java.awt.EventQueue.invokeLater(new Runnable() {
+						public void run() {
+							new MainFrame().setVisible(true);
+						}
+					});
+					\end{lstlisting}
 					L'EventDispatchThread s'occupe de l'affichage des fenetres et de leur rafraichissement. Les écouteurs d'évemenements sur la fenetre sont aussi exécutés dans ce thread.\\
 					Les evenements de type KeyPressed sont donc pris en charge par ce thread.
 					
 					\FloatBarrier	%placer tous les éléments flottants avant de continuer
+					\newpage
 				\subsection{Générateur aléatoire de caractères} 
 					Dans cette deuxième étape, on génère aléatoirement un caractère et on l'affiche dans la fenetre graphique.\\
 					Le caractère se déplace à une vitesse aléatoire de gauche à droite.\\
@@ -130,49 +139,54 @@
 					\end{figure}
 					
 					Pour réaliser cela, on utilise la classe Timer de Swing (par la suite, on créera notre propre timer) :\\
-					
-					ActionListener taskPerformer = new ActionListener() {\\
-						public void actionPerformed(ActionEvent evt) {\\
-							positionCaract+=5;\\
-							repaint();\\
-						}\\
-					};\\
+					\begin{lstlisting}
+					ActionListener taskPerformer = new ActionListener() {
+						public void actionPerformed(ActionEvent evt) {
+							positionCaract+=5;
+							repaint();
+						}
+					};
 					tim = new Timer(time, taskPerformer);   //timer pour exécuter la fonction à interval de temps régulier.\\
-					tim.start();\\
-					~\\
+					tim.start();
+					\end{lstlisting}
 					On incrémente donc la position du caractère à interval de temps régulier. Cet interval est choisi aléatoirement à chaque génération d'un nouveau caractère :\\
-					time=(int)(Math.random()*30+10);    //vitesse aléatoire\\
-        
+					\begin{lstlisting}
+					time=(int)(Math.random()*30+10);    //vitesse aléatoire
+					\end{lstlisting}
 					Il y a des données partagées. La variable positionCaract, qui est la position du caractère dans la fenetre, est accédée par le thread du timer et par l'EventDispatchThread pour mettre à jour l'affichage.\\
 					En effet, la méthode paintComponent du JPanel contient le code :\\
-					if(positionCaract >= this.getWidth()){\\
-						positionCaract=0;\\
-						evtCarac.generateCarac();\\
-					}\\
+					\begin{lstlisting}
+					if(positionCaract >= this.getWidth()){
+						positionCaract=0;
+						evtCarac.generateCarac();
+					}
+					\end{lstlisting}
 					Cependant ce n'est pas génant, puisque l'accès en lecture de la variable pour la condition est fait de manière atomique. De meme, l'affectation de 0 à la variable est également atomique.\\
-					La variable n'étant qu'incrémentée par le timer, meme si la valeur de positionCaract est changée entre l'entrée dans la condition et l'affectation, la condition reste vraie.\\
+					La variable n'étant qu'incrémentée par le timer, meme si la valeur de \emph{positionCaract} est changée entre l'entrée dans la condition et l'affectation, la condition reste vraie.\\
 					On ne peut donc pas ici avoir de problèmes entre les threads.
 					
 					\FloatBarrier
+					\newpage
 				\subsection{Boutons start, stop et quit}
 					Dans cette troisième étape, on rajoute les trois boutons.\\
 					Par ailleurs, nous avons développé notre propre timer plutot que d'utiliser la classe Swing.Timer toute faite. Il s'agit de la classe TimerPerso.\\
 					La classe est abstraite, et contient la définition de la fonction abstraite \emph{public abstract void iteration();}\\
 					
 					Pour créer un nouveau timer, on procède donc comme suit :\\
-					tim = new TimerPerso(time, true){\\
-						@Override\\
-						public void iteration() {\\
-							positionCaract+=5;\\
-							repaint();\\
-						}\\
-					};\\
-					tim.start();        //on démarre le timer.\\
-					~\\
+					\begin{lstlisting}
+					tim = new TimerPerso(time, true){
+						@Override
+						public void iteration() {
+							positionCaract+=5;
+							repaint();
+						}
+					};
+					tim.start();        //on démarre le timer.
+					\end{lstlisting}
 					Nous avons implémenté plusieurs fonctions dans cette classe TimerPerso, qui permettent de gérer le timer :\\
 					Ainsi, lors d'un appui sur le bouton \emph{stop}, nous changeons l'état de la variable \emph{pause} et lancons une interruption sur le thread du timer. Cela a pour effet de stopper le thread le plus rapidement possible.\\
 					L'appui sur le bouton stop ne tue pas le thread, mais empèche l'exécution de la fonction \emph{iteration}, qui est normalement exécutée à interval régulier.\\
-					Pour quitter complètement le thread, on a la possibilité d'appeler la fonction \emph{public void quit();} que nous avons implémenté.
+					Pour quitter complètement le thread, on a la possibilité d'appeler la fonction \emph{public void quit();} que nous avons implémenté.\\
 					Lors de l'appui sur le bouton start, on change à nouveau la variable \emph{pause} et on lance une interruption, pour reprendre l'éxecution du timer le plus rapidement possible.\\
 					~\\
 					Avec cette manière de faire, on est assuré de minimiser le temps entre l'appui sur un bouton et le lancement de l'action associée.\\
@@ -186,6 +200,7 @@
 			\end{figure}
 
 		\FloatBarrier
+		\newpage
 		\section{La version finale du jeu}
 			Voici à présent la dernière version du jeu, qui contient en plus un label pour l'affichage des scores, une hauteur aléatoire pour le caractère, et un label pour l'affichage du caractère entré au clavier.\\
 			\begin{figure}[!ht]
@@ -194,20 +209,26 @@
 				\caption{La version finale du jeu}
 				\label{fig:final}
 			\end{figure}
-			De part le mode de gestion que nous avons choisi, la seule variable partagée entre les threads EventDispatchThread et TimerPerso est la variable \emph{positionCaract}, qui stocke la position en X du caractère à l'écran.\\
+			De part le mode de gestion que nous avons choisi, qui correspond à une interprétation possible des exigences du sujet, la seule variable partagée entre les threads EventDispatchThread et TimerPerso est la variable \emph{positionCaract}, qui stocke la position en X du caractère à l'écran.\\
 			En effet, la fonction \emph{iteration}, qui est appelée par le timer, contient le code suivant :\\
-			public void iteration() {\\
-                positionCaract+=5;\\
-                repaint();\\
-            }\\
+			
+			\begin{lstlisting}
+			public void iteration() {
+                positionCaract+=5;
+                repaint();
+            }
+            \end{lstlisting}
+            
 			Or cette ressource partagée n'implique pas de problèmes, comme nous l'avons expliqué dans la partie \emph{Générateur aléatoire de caractères}.\\
 			L'ajout d'un label pour l'affichage des scores ne rajoute pas de ressources partagées dans notre cas, puisque sa mise à jour est gérée entièrement dans l'EventDispatchThread.\\
 			~\\
 			Un autre point qu'on peut mentionner est que le timer, en plus d'incrémenter la variable positionCaract, appelle la fonction repaint() pour mettre à jour l'affichage sur le JPanel.\\
 			Comme cette fonction est appelée depuis le thread du timer, on peut penser qu'elle va s'exécuter en parallèle. Mais ce n'est pas le cas, car la mise à jour de l'affichage (donc l'appel de la fonction paintComponent du JPanel) sera ajoutée à la queue d'évenements et faite séquentiellement par l'EventDispatchThread, comme le mentionne la javadoc de la fonction repaint().\\
 			~\\
-			On peut donc affirmer que notre programme est Thread-safe.
+			On peut donc affirmer que notre programme est \emph{Thread-safe}.
 		
+		\FloatBarrier
+		\newpage
 		\section{Documentation}
 				\subsection{Système de gestion de versions}
 				Durant la réalisation de ce projet, nous avons utilisé un système de gestion de versions. Il permet de stocker les différentes versions du programme, et de visualiser facilement les différences.\\
@@ -218,7 +239,7 @@
 				 Le projet est sous licence GNU GPL 2 (General Public License).
 				 
 		\FloatBarrier
-		
+		%\include{EvtCarac}
 		%\newpage
 		%\FloatBarrier
 		%\bibliographystyle{plain}
